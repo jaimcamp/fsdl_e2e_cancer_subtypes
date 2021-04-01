@@ -6,6 +6,11 @@ Where after an initial unsupervised
 Project for the FSDL course to build a webapp for cancer subtype clusterting and prediction
 
 
+## Outcome
+
+The final outcome of this project is a Webapp, where a user can upload their transcriptomic data and their sample will be classify in one of the previous discovered subtypes.
+In addition, information about the distance to the other subtypes and general information about them will also be provided.
+
 ## Data type and sources
 
 At the beginning only transcriptomic data (RNAseq), if possible add additional types of data such as microRNA, clinical and other.

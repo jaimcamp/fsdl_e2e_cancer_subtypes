@@ -18,7 +18,7 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@3.9.2//css/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@3.9.2//css/theme/moon.css" id="theme">
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement( 'link' );
@@ -38,12 +38,53 @@
 <section id="title-slide">
   <h1 class="title">Proposal for FSDL project</h1>
   <p class="author">Jaime Campos</p>
-  <p class="date">Wed Mar 31 04:27:31 PM CEST 2021</p>
+  <p class="date">Wed, Mar 31 2021</p>
 </section>
 
 <section id="about-me" class="slide level1">
 <h1>About me</h1>
-<p>asd a</p>
+<ul>
+<li class="fragment">From Chile 🇨🇱 living in Germany 🇩🇪</li>
+<li class="fragment">Bioinformatics &amp; Data Science</li>
+<li class="fragment">Interest on advantages of Deep Learning</li>
+<li class="fragment">Focus on creating data products</li>
+</ul>
+</section>
+<section id="objective" class="slide level1">
+<h1>Objective</h1>
+<ul>
+<li class="fragment">Use unsupervised learning to find the subtypes of brain cancer (GBM) using transcriptomic data</li>
+<li class="fragment">Build a Webapp to:
+<ul>
+<li class="fragment">Showcase the findings of the clustering</li>
+<li class="fragment">Users can upload their transcriptomic data to classify their data into one subtype</li>
+</ul></li>
+</ul>
+</section>
+<section id="how-to-do-it" class="slide level1">
+<h1>How to do it</h1>
+<h3 id="clustering-of-samples-of-brain-tumor">Clustering of samples of brain tumor</h3>
+<ul>
+<li class="fragment">Freely available transcriptomic data is obtained from public repositories</li>
+<li class="fragment">Perform clustering of samples using an autoencoder architecture</li>
+<li class="fragment">Find main attributes of clusters</li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h3 id="webapp-for-upload-and-analysis-of-samples">Webapp for upload and analysis of samples</h3>
+<ul>
+<li class="fragment">Implement Webapp to explore found clusters</li>
+<li class="fragment">Add upload and classification capacity</li>
+</ul>
+</section>
+<section id="data-type-and-sources" class="slide level1">
+<h1>Data type and sources</h1>
+<p>Only transcriptomic data (RNAseq) If possible add additional data, ie microRNA, clinical and other.</p>
+<ul>
+<li class="fragment">TCGA: Over 20,000 samples of cancer</li>
+<li class="fragment">GTEx: Over 1,000 non-disease samples</li>
+</ul>
 </section>
     </div>
   </div>

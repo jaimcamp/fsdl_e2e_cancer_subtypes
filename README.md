@@ -4,7 +4,7 @@ title: Proposal for FSDL project
 date: Wed Mar 31 04:27:31 PM CEST 2021
 ---
 
-# FSLS 2021 project - E2E classification of brain tumor's subtypes
+# FSLS 2021 project - GenoType Explorer, a E2E classification an exploration of brain tumor's subtypes
 
 -----
 This is a project for the Full Stack Deep Learning course from 2021.

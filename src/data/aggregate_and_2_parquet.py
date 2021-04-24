@@ -24,7 +24,7 @@ for ix, chunk in enumerate(chunks):
     tmp_df = pd.concat(
         (pd.read_table(filename, delimiter='\t', header=None, index_col=0, compression='gzip').transpose() for filename in chunk),
         axis=0)
-    tmp_df.set_index(pd.Series([Path(x).with_suffix('').stem for  x in chunk]), inplace=True)
+    tmp_df.set_index(pd.Series([Path(x).with_suffix('').with_suffix('').stem for  x in chunk]), inplace=True)
     tmp_df.to_parquet(output_filename.resolve())
     del tmp_df
 

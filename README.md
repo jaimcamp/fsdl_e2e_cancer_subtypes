@@ -9,7 +9,7 @@ date: Wed Mar 31 04:27:31 PM CEST 2021
 -----
 This is a project for the Full Stack Deep Learning course from 2021.
 The main objective is to build an end-to-end Webapp for the clustering and classification of brain tumor samples.
-This project mixes an academic approach to analyse and classify samples, and to give the end-user an interface to study the subtypes and compare to their samples.
+This project mixes an academic approach to analyze and classify samples, and to give the end-user an interface to study the subtypes and compare to their samples.
 
 -----
 

@@ -2,16 +2,18 @@ version: '3'
 
 services:
   frontend:
-    build: frontend
+    image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-frontend:latest
+    #build: frontend
     ports:
-      - 8501:8501
+      - 9501:8501
     depends_on:
       - backend
     volumes:
       - ./storage:/storage
   backend:
-    build: backend
+    image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-backend:latest
+    #build: backend
     ports:
-      - 8080:8080
+      - 9080:8080
     volumes:
       - ./storage:/storage

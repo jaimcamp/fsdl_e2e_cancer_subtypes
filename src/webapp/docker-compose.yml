@@ -10,6 +10,10 @@ services:
       - backend
     volumes:
       - ./storage:/storage
+    environment:
+      - STREAMLIT_SERVER_ENABLE_CORS=false
+      - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+      - STREAMLIT_LOGGER_LEVEL=debug
   backend:
     image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-backend:latest
     #build: backend

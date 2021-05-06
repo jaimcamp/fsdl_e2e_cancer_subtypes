@@ -34,7 +34,7 @@ jobs:
           else
             docker build . --file Dockerfile
           fi
-        working-directory: src/webapp/
+        working-directory: src/webapp/frontend
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -54,7 +54,7 @@ jobs:
 
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
-        working-directory: src/webapp/backend/
+        working-directory: src/webapp/frontend/
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin

@@ -34,7 +34,7 @@ jobs:
           else
             docker build . --file Dockerfile
           fi
-        working-directory: src/webapp/
+        working-directory: src/webapp/backend/
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/

@@ -1,8 +1,7 @@
 import torch
 from argparse import ArgumentParser
-import argparse
 from torch.utils.data import TensorDataset, DataLoader
-from torch import nn, optim
+from torch import optim
 from pathlib import Path
 from autoencoder import Autoencoder, customLoss, weights_init_uniform_rule
 

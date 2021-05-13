@@ -15,13 +15,15 @@
 
 # %%
 import torch
-import torchvision as vision
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.cluster import DBSCAN
 from torch import nn
 
 # %%
-device = torch.device('cuda')
+# %cd ../
+
+# %%
+device = torch.device('cpu')
 
 # %%
 data = torch.load("data/processed/mini_dataset.pt", device)

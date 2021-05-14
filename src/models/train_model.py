@@ -44,10 +44,10 @@ def train(epoch, train_batches, device, optimizer, loss_mse,
                 epoch, batch_idx * len(data), len(train_batches.dataset),
                 100. * batch_idx / len(train_batches),
                 loss.item() / len(data)))
-    if epoch % 200 == 0:        
-        print('====> Epoch: {} Average loss: {:.4f}'.format(
-            epoch, train_loss / len(train_batches.dataset)))
-        train_losses.append(train_loss / len(train_batches.dataset))
+        if epoch % 200 == 0:
+            print('====> Epoch: {} Average loss: {:.4f}'.format(
+                epoch, train_loss / len(train_batches.dataset)))
+            train_losses.append(train_loss / len(train_batches.dataset))
 
 def main():
     parser = _setup_parser()

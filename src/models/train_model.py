@@ -4,10 +4,12 @@ from torch.utils.data import TensorDataset, DataLoader
 from torch import optim
 from pathlib import Path
 from autoencoder import Autoencoder, customLoss, weights_init_uniform_rule
+import numpy as np
 
 def _setup_parser():
     parser = ArgumentParser(add_help=True)
     parser.add_argument('--pathdata', default="data/processed", type=str)
+    parser.add_argument('--device', default="cpu", type=str)
     parser.add_argument('--batch_size', default=512, type=int)
     parser.add_argument('--learning_rate', default=1e-3, type=float)
     parser.add_argument('--epochs', default=1500, type=int)
@@ -51,7 +53,10 @@ def main():
     parser = _setup_parser()
     args = parser.parse_args()
     data_path = Path(args.pathdata)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if args.device == 'gpu' and torch.cuda.is_available():
+        device = 'cuda'
+    else:
+        device = 'cpu'
     data_set = _load_data(device, data_path)
     train_batches = DataLoader(data_set, batch_size=args.batch_size, shuffle=True)
     D_in = data_set.tensors[0].shape[1]
@@ -70,6 +75,30 @@ def main():
     for epoch in range(1, epochs + 1):
         train(epoch, train_batches, device, optimizer, loss_mse,
               log_interval, model, train_losses)
+    torch.save({
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': loss_mse,
+    },
+               (data_path / "model_save.pth").resolve()
+               )
+
+    mu_output = []
+    logvar_output = []
+    with torch.no_grad():
+        for i, data in enumerate(train_batches):
+            data = data[0].to(device)
+            optimizer.zero_grad()
+            recon_batch, mu, logvar = model(data)
+            mu_tensor = mu
+            mu_output.append(mu_tensor)
+            mu_result = torch.cat(mu_output, dim=0)
+            logvar_tensor = logvar
+            logvar_output.append(logvar_tensor)
+            logvar_result = torch.cat(logvar_output, dim=0)
+    np.save(file=(data_path / "mu_result").resolve(),
+            arr=mu_result.numpy())
 
 if __name__ == "__main__":
     main()

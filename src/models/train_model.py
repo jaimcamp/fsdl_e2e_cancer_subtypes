@@ -4,11 +4,13 @@ from torch.utils.data import TensorDataset, DataLoader
 from torch import optim
 from pathlib import Path
 from autoencoder import Autoencoder, customLoss, weights_init_uniform_rule
+from build_cluster import clustering
 import numpy as np
 
 def _setup_parser():
     parser = ArgumentParser(add_help=True)
     parser.add_argument('--pathdata', default="data/processed", type=str)
+    parser.add_argument('--pathoutput', default="data/output", type=str)
     parser.add_argument('--device', default="cpu", type=str)
     parser.add_argument('--batch_size', default=512, type=int)
     parser.add_argument('--learning_rate', default=1e-3, type=float)
@@ -44,15 +46,16 @@ def train(epoch, train_batches, device, optimizer, loss_mse,
                 epoch, batch_idx * len(data), len(train_batches.dataset),
                 100. * batch_idx / len(train_batches),
                 loss.item() / len(data)))
-        if epoch % 200 == 0:
-            print('====> Epoch: {} Average loss: {:.4f}'.format(
-                epoch, train_loss / len(train_batches.dataset)))
-            train_losses.append(train_loss / len(train_batches.dataset))
+    if epoch % 200 == 0:
+        print('====> Epoch: {} Average loss: {:.4f}'.format(
+            epoch, train_loss / len(train_batches.dataset)))
+        train_losses.append(train_loss / len(train_batches.dataset))
 
 def main():
     parser = _setup_parser()
     args = parser.parse_args()
     data_path = Path(args.pathdata)
+    output_path = Path(args.pathoutput)
     if args.device == 'gpu' and torch.cuda.is_available():
         device = 'cuda'
     else:
@@ -80,7 +83,9 @@ def main():
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': loss_mse,
-    }, "model_save.pth")
+    },
+               (output_path / "model_save.pth").resolve()
+               )
 
     mu_output = []
     logvar_output = []
@@ -95,8 +100,9 @@ def main():
             logvar_tensor = logvar
             logvar_output.append(logvar_tensor)
             logvar_result = torch.cat(logvar_output, dim=0)
-    np.save(file="mu_result",
+    np.save(file=(output_path / "mu_result.npy").resolve(),
             arr=mu_result.numpy())
+    clustering(data_path ,output_path)
 
 if __name__ == "__main__":
     main()

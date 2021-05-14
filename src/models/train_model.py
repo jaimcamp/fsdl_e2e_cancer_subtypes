@@ -80,9 +80,7 @@ def main():
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': loss_mse,
-    },
-               (data_path / "model_save.pth").resolve()
-               )
+    }, "model_save.pth")
 
     mu_output = []
     logvar_output = []
@@ -97,7 +95,7 @@ def main():
             logvar_tensor = logvar
             logvar_output.append(logvar_tensor)
             logvar_result = torch.cat(logvar_output, dim=0)
-    np.save(file=(data_path / "mu_result").resolve(),
+    np.save(file="mu_result",
             arr=mu_result.numpy())
 
 if __name__ == "__main__":

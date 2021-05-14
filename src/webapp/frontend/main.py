@@ -8,16 +8,14 @@ Description:
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import requests as re
+import altair as alt
 
 URL="http://localhost"
 
 @st.cache
 def get_data():
-    dataset = pd.DataFrame(
-        np.random.randint(100, size=(100, 1)), columns=['Samples'])
-    # dataset = pd.read_parquet("data/processed/mini_dataset.parquet")
+    dataset = pd.read_parquet("/storage/tsne_df.parquet")
     return(dataset)
 
 def main():
@@ -37,6 +35,14 @@ dataset = get_data()
 
 def show_explore():
     st.header("Exploring transcriptomic data")
+    chart = alt.Chart(dataset).mark_circle().encode(
+        x='First Dimension',
+        y='Second Dimension',
+        color='Project',
+        tooltip=['Project']
+    ).interactive()
+
+    st.altair_chart(chart, use_container_width=True)
 
 def show_upload():
     st.header("Upload your own transcriptomic data")

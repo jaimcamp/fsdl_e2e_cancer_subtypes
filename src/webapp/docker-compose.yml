@@ -2,22 +2,22 @@ version: '3'
 
 services:
   frontend:
-    image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-frontend:latest
-    #build: frontend
+    #image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-frontend:latest
+    build: frontend
     ports:
       - 9501:8501
     depends_on:
       - backend
     volumes:
-      - ./storage:/storage
+      - ./storage:/storage:z
     environment:
       - STREAMLIT_SERVER_ENABLE_CORS=false
       - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
       - STREAMLIT_LOGGER_LEVEL=debug
   backend:
-    image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-backend:latest
-    #build: backend
+    #image: ghcr.io/jaimcamp/gt-explorer/gtexplorer-backend:latest
+    build: backend
     ports:
       - 9080:8080
     volumes:
-      - ./storage:/storage
+      - ./storage:/storage:z

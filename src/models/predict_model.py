@@ -5,20 +5,13 @@ from torch import optim
 from autoencoder import Autoencoder
 import pandas as pd
 from sklearn.manifold import TSNE
+from pathlib import Path
 
 def _setup_parser():
     parser = ArgumentParser(add_help=True)
     parser.add_argument('--modelpath', default="data/output/model_save.pth", type=str)
-    parser.add_argument('--newdatapath', default="/storage", type=str)
-    # parser.add_argument('--pathoutput', default="data/output", type=str)
-    # parser.add_argument('--device', default="cpu", type=str)
-    # parser.add_argument('--batch_size', default=512, type=int)
-    # parser.add_argument('--learning_rate', default=1e-3, type=float)
-    # parser.add_argument('--epochs', default=1500, type=int)
-    # parser.add_argument('--H', default=200, type=int)
-    # parser.add_argument('--H2', default=50, type=int)
-    # parser.add_argument('--H3', default=12, type=int)
-    # parser.add_argument('--latentdims', default=5, type=int)
+    parser.add_argument('--newdatapath', default="/storage/newdata.csv", type=str)
+    parser.add_argument('--originaldatapath', default="/storage/tsn_df.csv", type=str)
     return parser
 
 def _read_new_data(path):
@@ -62,6 +55,9 @@ def _clustering(latent_vars):
     tsne_df['Project'] = 'Uploaded Data'
     return tsne_df
 
+def _read_old_tse(path):
+    return pd.read_parquet(path)
+
 def main():
     parser = _setup_parser()
     args = parser.parse_args()
@@ -69,10 +65,15 @@ def main():
     newdata = _read_new_data(args.newdatapath)
     mu_result, _ = _predict(model, optimizer, newdata)
     tsne_df_new = _clustering(mu_result)
-    # tsne_df.to_parquet(
-        # (path_latents / "tsne_df.parquet").resolve()
-    # )
-    return tsne_df_new
+    tsne_df_old = _read_old_tse(args.originaldatapath)
+    tsne_df_cat = pd.concat([tsne_df_new, tsne_df_old])
+    oldpath = Path(args.originaldatapath)
+    breakpoint()
+    tsne_df_old.to_parquet(
+        oldpath.parent / (oldpath.stem + '.old' + oldpath.suffix)
+    )
+    tsne_df_cat.to_parquet(oldpath)
+    return tsne_df_cat
 
 if __name__ == "__main__":
     out = main()

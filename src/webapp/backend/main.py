@@ -9,6 +9,9 @@ Description:
 
 from fastapi import FastAPI, UploadFile, File
 import uvicorn
+import os
+from starlette.responses import PlainTextResponse
+from predict_model import updateTSNE
 
 app = FastAPI()
 
@@ -22,7 +25,10 @@ def get_model():
 
 @app.post("/addData")
 def add_data(file: UploadFile = File(...)):
-    return {"message": file.filename}
+    tsne_path = updateTSNE(modelpath='/storage/model_save.pth',
+                         newdatapath=file.file.read(),
+                         originaldatapath='/storage/tsne_df.parquet')
+    return {"message": tsne_path}
 
 
 if __name__ == "__main__":

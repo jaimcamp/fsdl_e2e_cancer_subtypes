@@ -11,9 +11,8 @@ import pandas as pd
 import requests as re
 import altair as alt
 
-URL="http://localhost"
+URL="http://backend:8080"
 
-@st.cache
 def get_data():
     dataset = pd.read_parquet("/storage/tsne_df.parquet")
     return(dataset)
@@ -31,9 +30,9 @@ def main():
     else:
         pass
 
-dataset = get_data()
 
 def show_explore():
+    dataset = get_data()
     st.header("Exploring transcriptomic data")
     chart = alt.Chart(dataset).mark_circle().encode(
         x='First Dimension',
@@ -50,8 +49,8 @@ def show_upload():
     if file_uploaded is not None:
         bytes_data = file_uploaded.getvalue()
         st.write(f"Uploaded file: {file_uploaded.name} ")
-        st.write(bytes_data)
-        res = re.post(f"{URL}/predict", data=file_uploaded)
+        res = re.post(f"{URL}/addData", files={"file": bytes_data})
+        st.write(res)
         result = res.json()
         st.write(result)
 

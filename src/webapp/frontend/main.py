@@ -18,23 +18,33 @@ def get_data():
     return(dataset)
 
 def main():
+    dataset = get_data()
     st.title("Genotype explorer")
     st.header("Description")
     st.subheader("This Web app shows the clustering of TCGA cancer data using a DL methodology.")
+    st.markdown("""
+    * To explore the TCGA data clustered, select 'Explore Data'
+    * To add samples, select the option 'Upload Data' and upload a CSV with the new samples
+    """)
     st.sidebar.header("Sections")
     selection = st.sidebar.radio(label="Select the page", options=["Explore Data", "Upload Data"])
+    projects = dataset['Project'].drop_duplicates().tolist()
+    sel_p = st.sidebar.multiselect(
+        label="Select the projects to show",
+        options=projects,
+        default=projects
+    )
     if selection == "Explore Data":
-        show_explore()
+        show_explore(dataset, sel_p)
     elif selection == "Upload Data":
         show_upload()
     else:
         pass
 
-
-def show_explore():
-    dataset = get_data()
+def show_explore(dataset, sel_p):
     st.header("Exploring transcriptomic data")
-    chart = alt.Chart(dataset).mark_circle().encode(
+    subset = dataset[dataset['Project'].isin(sel_p)]
+    chart = alt.Chart(subset).mark_circle().encode(
         x='First Dimension',
         y='Second Dimension',
         color='Project',

@@ -7,6 +7,10 @@ import pandas as pd
 from sklearn.manifold import TSNE
 from pathlib import Path
 
+#######################################################################################
+#  From https://www.kaggle.com/schmiddey/variational-autoencoder-with-pytorch-vs-pca  #
+#######################################################################################
+
 def _setup_parser():
     parser = ArgumentParser(add_help=True)
     parser.add_argument('--modelpath', default="data/output/model_save.pth", type=str)

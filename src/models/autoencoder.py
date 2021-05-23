@@ -4,6 +4,9 @@ from torch.nn import functional as F
 from torch.autograd import Variable
 import numpy as np
 
+#######################################################################################
+#  From https://www.kaggle.com/schmiddey/variational-autoencoder-with-pytorch-vs-pca  #
+#######################################################################################
 
 
 class Autoencoder(nn.Module):
@@ -88,19 +91,15 @@ class customLoss(nn.Module):
         super(customLoss, self).__init__()
         self.mse_loss = nn.MSELoss(reduction="sum")
 
-    # x_recon ist der im forward im Model erstellte recon_batch, x ist der originale x Batch, mu ist mu und logvar ist logvar 
     def forward(self, x_recon, x, mu, logvar):
         loss_MSE = self.mse_loss(x_recon, x)
         loss_KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
 
         return loss_MSE + loss_KLD
 
-# takes in a module and applies the specified weight initialization
 def weights_init_uniform_rule(m):
     classname = m.__class__.__name__
-    # for every Linear layer in a model..
     if classname.find('Linear') != -1:
-        # get the number of the inputs
         n = m.in_features
         y = 1.0/np.sqrt(n)
         m.weight.data.uniform_(-y, y)

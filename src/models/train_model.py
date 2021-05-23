@@ -7,6 +7,10 @@ from autoencoder import Autoencoder, customLoss, weights_init_uniform_rule
 from build_cluster import clustering
 import numpy as np
 
+#######################################################################################
+#  From https://www.kaggle.com/schmiddey/variational-autoencoder-with-pytorch-vs-pca  #
+#######################################################################################
+
 def _setup_parser():
     parser = ArgumentParser(add_help=True)
     parser.add_argument('--pathdata', default="data/processed", type=str)
